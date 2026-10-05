@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GeoSwine</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app-shell">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                GS
+            </div>
+
+            <div>
+
+                <div class="brand-title">
+                    GeoSwine
+                </div>
+
+                <div class="brand-subtitle">
+                    ASF Monitoring System
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <nav
+            class="nav-menu"
+            aria-label="Main navigation"
+        >
+
+            <button
+                class="nav-item active"
+                data-page="home"
+            >
+                <span>Home</span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="outbreak-map"
+            >
+                <span>Outbreak Map</span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="case-reports"
+            >
+                <span>Case Reports</span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="risk-classification"
+            >
+                <span>Risk Classification</span>
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-page="proximity-analysis"
+            >
+                <span>Proximity Analysis</span>
+            </button>
+
+        </nav>
+
+
+        <!-- =========================
+             SIDEBAR FOOTER
+        ========================== -->
+
+        <div class="sidebar-footer">
+
+            <div
+                class="account-chip"
+                style="display:none !important;"
+                aria-hidden="true"
+            >
+
+                <div
+                    class="account-avatar"
+                    id="accountAvatar"
+                >
+                    G
+                </div>
+
+                <div class="account-meta">
+
+                    <strong id="accountName">
+                        Guest
+                    </strong>
+
+                    <span id="accountRole">
+                        Not logged in
+                    </span>
+
+                </div>
+
+                <span
+                    class="account-status"
+                    id="accountStatus"
+                ></span>
+
+            </div>
+
+
+            <button
+                class="sidebar-link"
+                id="loginButton"
+            >
+                Login
+            </button>
+
+
+            <button
+                class="sidebar-link"
+                id="signupButton"
+            >
+                Sign Up
+            </button>
+
+
+            <button
+                class="sidebar-link logout-link hidden"
+                id="logoutButton"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+
+
+        <!-- =========================
+             MOBILE HEADER
+        ========================== -->
+
+        <header class="mobile-header">
+
+            <button
+                class="menu-button"
+                id="mobileMenuButton"
+            >
+                ☰
+            </button>
+
+            <div class="mobile-brand">
+
+                <span class="mobile-brand-mark">
+                    GS
+                </span>
+
+                <span>
+                    GeoSwine
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================
+             HOME
+        ========================== -->
+
+        <section
+            class="page active-page"
+            id="page-home"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <div class="eyebrow">
+                        GeoSwine Monitoring System
+                    </div>
+
+                    <h1>
+                        Home
+                    </h1>
+
+                    <p>
+                        Dashboard overview of ASF monitoring activities.
+                    </p>
+
+                </div>
+
+
+                <div class="status-pill">
+
+                    <span></span>
+
+                    System Online
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DASHBOARD CARDS -->
+
+            <div class="dashboard-grid">
+
+
+                <!-- REGISTERED FARMS -->
+
+                <article class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span class="metric-icon olive">
+                            ⌂
+                        </span>
+
+                        <span class="metric-caption">
+                            Registered Farms
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="metric-value"
+                        id="registeredFarms"
+                    >
+                        0
+                    </div>
+
+                    <div class="metric-note">
+                        Total farms in the system
+                    </div>
+
+                </article>
+
+
+
+                <!-- ACTIVE OUTBREAKS -->
+
+                <article class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span class="metric-icon red">
+                            !
+                        </span>
+
+                        <span class="metric-caption">
+                            Active Outbreaks
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="metric-value"
+                        id="activeOutbreaks"
+                    >
+                        0
+                    </div>
+
+                    <div class="metric-note">
+                        Reports not yet resolved
+                    </div>
+
+                </article>
+
+
+
+                <!-- HIGH RISK -->
+
+                <article class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span class="metric-icon high">
+                            ▲
+                        </span>
+
+                        <span class="metric-caption">
+                            High Risk Farms
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="metric-value high-text"
+                        id="highRiskFarms"
+                    >
+                        0
+                    </div>
+
+                    <div class="metric-note">
+                        Within 1 km
+                    </div>
+
+                </article>
+
+
+
+                <!-- MEDIUM RISK -->
+
+                <article class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span class="metric-icon medium">
+                            ◆
+                        </span>
+
+                        <span class="metric-caption">
+                            Medium Risk Farms
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="metric-value medium-text"
+                        id="mediumRiskFarms"
+                    >
+                        0
+                    </div>
+
+                    <div class="metric-note">
+                        Within 1–7 km
+                    </div>
+
+                </article>
+
+
+
+                <!-- LOW RISK -->
+
+                <article class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span class="metric-icon low">
+                            ●
+                        </span>
+
+                        <span class="metric-caption">
+                            Low Risk Farms
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="metric-value low-text"
+                        id="lowRiskFarms"
+                    >
+                        0
+                    </div>
+
+                    <div class="metric-note">
+                        Within 7–10 km
+                    </div>
+
+                </article>
+
+
+
+                <!-- RESOLVED -->
+
+                <article class="metric-card">
+
+                    <div class="metric-top">
+
+                        <span class="metric-icon olive">
+                            ✓
+                        </span>
+
+                        <span class="metric-caption">
+                            Resolved Outbreaks
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="metric-value"
+                        id="resolvedOutbreaks"
+                    >
+                        0
+                    </div>
+
+                    <div class="metric-note">
+                        Closed reports
+                    </div>
+
+                </article>
+
+            </div>
+
+
+
+            <!-- LOWER DASHBOARD -->
+
+            <div class="home-lower">
+
+
+                <!-- ACTIVE OUTBREAKS -->
+
+                <section class="panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <h2>
+                                Active Outbreaks
+                            </h2>
+
+                            <p>
+                                Latest reports requiring monitoring
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="panel-action"
+                            data-page-link="case-reports"
+                        >
+                            View all
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="outbreak-list"
+                        id="dashboardOutbreaks"
+                    >
+
+                        <div class="empty-state">
+                            Loading outbreak reports...
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             OUTBREAK MAP
+        ========================== -->
+
+        <section
+            class="page"
+            id="page-outbreak-map"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Geographic Monitoring
+                    </div>
+
+                    <h1>
+                        Outbreak Map
+                    </h1>
+
+                    <p>
+                        View farms and outbreak reports on the GIS map.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    id="refreshMapButton"
+                >
+                    Refresh Map
+                </button>
+
+            </div>
+
+
+
+            <section class="panel map-panel">
+
+                <div class="map-toolbar">
+
+
+                    <!-- UPDATED MAP LEGEND -->
+
+                    <div
+                        class="legend"
+                        style="
+                            display:flex;
+                            flex-wrap:wrap;
+                            gap:14px 20px;
+                            align-items:center;
+                        "
+                    >
+
+                        <!-- FARM -->
+
+                        <span
+                            style="
+                                display:inline-flex;
+                                align-items:center;
+                                gap:7px;
+                                font-size:13px;
+                            "
+                        >
+
+                            <i
+                                style="
+                                    width:11px;
+                                    height:11px;
+                                    border-radius:50%;
+                                    background:#536A35;
+                                    display:inline-block;
+                                    border:2px solid #ffffff;
+                                    box-shadow:0 0 0 1px #536A35;
+                                "
+                            ></i>
+
+                            Farm
+
+                        </span>
+
+
+
+                        <!-- OUTBREAK -->
+
+                        <span
+                            style="
+                                display:inline-flex;
+                                align-items:center;
+                                gap:7px;
+                                font-size:13px;
+                            "
+                        >
+
+                            <i
+                                style="
+                                    width:11px;
+                                    height:11px;
+                                    border-radius:50%;
+                                    background:#C35E5E;
+                                    display:inline-block;
+                                    border:2px solid #ffffff;
+                                    box-shadow:0 0 0 1px #C35E5E;
+                                "
+                            ></i>
+
+                            Outbreak
+
+                        </span>
+
+
+
+                        <!-- HIGH RISK -->
+
+                        <span
+                            style="
+                                display:inline-flex;
+                                align-items:center;
+                                gap:7px;
+                                font-size:13px;
+                            "
+                        >
+
+                            <i
+                                style="
+                                    width:12px;
+                                    height:12px;
+                                    border-radius:50%;
+                                    background:rgba(195,94,94,.24);
+                                    border:2px solid #C35E5E;
+                                    display:inline-block;
+                                "
+                            ></i>
+
+                            High Risk
+                            (0–1 km)
+
+                        </span>
+
+
+
+                        <!-- MEDIUM RISK -->
+
+                        <span
+                            style="
+                                display:inline-flex;
+                                align-items:center;
+                                gap:7px;
+                                font-size:13px;
+                            "
+                        >
+
+                            <i
+                                style="
+                                    width:12px;
+                                    height:12px;
+                                    border-radius:50%;
+                                    background:rgba(201,154,69,.18);
+                                    border:2px solid #C99A45;
+                                    display:inline-block;
+                                "
+                            ></i>
+
+                            Medium Risk
+                            (1–7 km)
+
+                        </span>
+
+
+
+                        <!-- LOW RISK -->
+
+                        <span
+                            style="
+                                display:inline-flex;
+                                align-items:center;
+                                gap:7px;
+                                font-size:13px;
+                            "
+                        >
+
+                            <i
+                                style="
+                                    width:12px;
+                                    height:12px;
+                                    border-radius:50%;
+                                    background:rgba(107,149,102,.16);
+                                    border:2px solid #6B9566;
+                                    display:inline-block;
+                                "
+                            ></i>
+
+                            Low Risk
+                            (7–10 km)
+
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="map-note">
+                        OpenStreetMap
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="map"
+                    class="geo-map"
+                ></div>
+
+            </section>
+
+        </section>
+
+
+
+        <!-- =========================
+             CASE REPORTS
+        ========================== -->
+
+        <section
+            class="page"
+            id="page-case-reports"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Outbreak Monitoring
+                    </div>
+
+                    <h1>
+                        Case Reports
+                    </h1>
+
+                    <p>
+                        Review outbreak reports recorded in GeoSwine.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="secondary-button"
+                    id="refreshReportsButton"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+
+
+            <section class="panel">
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <h2>
+                            Outbreak Reports
+                        </h2>
+
+                        <p>
+                            Current records from the GeoSwine database
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:12px;
+                        "
+                    >
+
+                        <span
+                            class="record-count"
+                            id="reportCount"
+                        >
+                            0 records
+                        </span>
+
+
+                        <button
+                            type="button"
+                            id="showReportFormButton"
+                            class="primary-button"
+                        >
+                            + Report an Outbreak
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="table-scroll">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Report ID
+                                </th>
+
+                                <th>
+                                    Farm
+                                </th>
+
+                                <th>
+                                    Reporter
+                                </th>
+
+                                <th>
+                                    Created At
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Reviewed At
+                                </th>
+
+                                <th>
+                                    Reviewed By
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="reportsTableBody">
+
+                            <tr>
+
+                                <td
+                                    colspan="8"
+                                    class="table-empty"
+                                >
+                                    Loading...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+
+        <!-- =========================
+             RISK CLASSIFICATION
+        ========================== -->
+
+        <section
+            class="page"
+            id="page-risk-classification"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Distance-Based Monitoring
+                    </div>
+
+                    <h1>
+                        Risk Classification
+                    </h1>
+
+                    <p>
+                        Farms grouped by proximity to active outbreak locations.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="info-strip">
+
+                <span class="info-icon">
+                    i
+                </span>
+
+                <span>
+                    High Risk (0–1 km), Medium Risk (1–7 km),
+                    Low Risk (7–10 km).
+                </span>
+
+            </div>
+
+
+
+            <div class="risk-grid">
+
+
+                <!-- HIGH -->
+
+                <section
+                    class="risk-card high-card"
+                >
+
+                    <div class="risk-card-head">
+
+                        <div>
+
+                            <span
+                                class="risk-label high-label"
+                            >
+                                HIGH RISK
+                            </span>
+
+                            <h2>
+                                0–1 km
+                            </h2>
+
+                        </div>
+
+                        <span
+                            class="risk-count"
+                            id="highRiskCount"
+                        >
+                            0 farms
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="risk-list"
+                        id="highRiskList"
+                    ></div>
+
+                </section>
+
+
+
+                <!-- MEDIUM -->
+
+                <section
+                    class="risk-card medium-card"
+                >
+
+                    <div class="risk-card-head">
+
+                        <div>
+
+                            <span
+                                class="risk-label medium-label"
+                            >
+                                MEDIUM RISK
+                            </span>
+
+                            <h2>
+                                &gt;1–7 km
+                            </h2>
+
+                        </div>
+
+                        <span
+                            class="risk-count"
+                            id="mediumRiskCount"
+                        >
+                            0 farms
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="risk-list"
+                        id="mediumRiskList"
+                    ></div>
+
+                </section>
+
+
+
+                <!-- LOW -->
+
+                <section
+                    class="risk-card low-card"
+                >
+
+                    <div class="risk-card-head">
+
+                        <div>
+
+                            <span
+                                class="risk-label low-label"
+                            >
+                                LOW RISK
+                            </span>
+
+                            <h2>
+                                &gt;7–10 km
+                            </h2>
+
+                        </div>
+
+                        <span
+                            class="risk-count"
+                            id="lowRiskCount"
+                        >
+                            0 farms
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="risk-list"
+                        id="lowRiskList"
+                    ></div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             PROXIMITY ANALYSIS
+        ========================== -->
+
+        <section
+            class="page"
+            id="page-proximity-analysis"
+        >
+
+            <div class="page-heading">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Geographic Analysis
+                    </div>
+
+                    <h1>
+                        Proximity Analysis
+                    </h1>
+
+                    <p>
+                        Measure the distance between an outbreak and nearby farms.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="proximity-grid">
+
+
+                <!-- LEFT PANEL -->
+
+                <section class="panel proximity-panel">
+
+                    <div class="panel-heading">
+
+                        <div>
+
+                            <h2>
+                                Select Active Outbreak
+                            </h2>
+
+                            <p>
+                                Choose a report for proximity analysis.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <select
+                            id="outbreakSelect"
+                            class="form-control"
+                        >
+
+                            <option value="">
+                                Select an outbreak
+                            </option>
+
+                        </select>
+
+
+                        <div class="origin-card">
+
+                            <span class="origin-label">
+                                ORIGIN / OUTBREAK
+                            </span>
+
+                            <strong id="originFarmName">
+                                No outbreak selected
+                            </strong>
+
+                            <span id="originCoordinates">
+                                —
+                            </span>
+
+                        </div>
+
+
+                        <div class="affected-header">
+
+                            <div>
+
+                                <h3>
+                                    Farms Affected
+                                </h3>
+
+                                <span>
+                                    Within 10 km
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="affectedFarms"
+                            class="affected-list"
+                        >
+
+                            <div class="empty-state">
+                                Select an outbreak to begin.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- PROXIMITY MAP -->
+
+                <section class="panel map-panel">
+
+                    <div
+                        class="map-toolbar"
+                        style="
+                            display:flex;
+                            flex-wrap:wrap;
+                            gap:14px 20px;
+                            align-items:center;
+                            justify-content:space-between;
+                            padding:12px 16px;
+                        "
+                    >
+
+                        <div
+                            style="
+                                display:flex;
+                                flex-wrap:wrap;
+                                gap:14px 20px;
+                                align-items:center;
+                            "
+                        >
+
+                            <span
+                                style="
+                                    display:inline-flex;
+                                    align-items:center;
+                                    gap:7px;
+                                    font-size:13px;
+                                "
+                            >
+
+                                <i
+                                    style="
+                                        width:11px;
+                                        height:11px;
+                                        border-radius:50%;
+                                        background:#536A35;
+                                        display:inline-block;
+                                        border:2px solid #ffffff;
+                                        box-shadow:0 0 0 1px #536A35;
+                                    "
+                                ></i>
+
+                                Farm
+
+                            </span>
+
+
+                            <span
+                                style="
+                                    display:inline-flex;
+                                    align-items:center;
+                                    gap:7px;
+                                    font-size:13px;
+                                "
+                            >
+
+                                <i
+                                    style="
+                                        width:11px;
+                                        height:11px;
+                                        border-radius:50%;
+                                        background:#C35E5E;
+                                        display:inline-block;
+                                        border:2px solid #ffffff;
+                                        box-shadow:0 0 0 1px #C35E5E;
+                                    "
+                                ></i>
+
+                                Outbreak
+
+                            </span>
+
+
+                            <span
+                                style="
+                                    display:inline-flex;
+                                    align-items:center;
+                                    gap:7px;
+                                    font-size:13px;
+                                "
+                            >
+
+                                <i
+                                    style="
+                                        width:12px;
+                                        height:12px;
+                                        border-radius:50%;
+                                        background:rgba(195,94,94,.24);
+                                        border:2px solid #C35E5E;
+                                        display:inline-block;
+                                    "
+                                ></i>
+
+                                High Risk
+                                (0–1 km)
+
+                            </span>
+
+
+                            <span
+                                style="
+                                    display:inline-flex;
+                                    align-items:center;
+                                    gap:7px;
+                                    font-size:13px;
+                                "
+                            >
+
+                                <i
+                                    style="
+                                        width:12px;
+                                        height:12px;
+                                        border-radius:50%;
+                                        background:rgba(201,154,69,.18);
+                                        border:2px solid #C99A45;
+                                        display:inline-block;
+                                    "
+                                ></i>
+
+                                Medium Risk
+                                (1–7 km)
+
+                            </span>
+
+
+                            <span
+                                style="
+                                    display:inline-flex;
+                                    align-items:center;
+                                    gap:7px;
+                                    font-size:13px;
+                                "
+                            >
+
+                                <i
+                                    style="
+                                        width:12px;
+                                        height:12px;
+                                        border-radius:50%;
+                                        background:rgba(107,149,102,.16);
+                                        border:2px solid #6B9566;
+                                        display:inline-block;
+                                    "
+                                ></i>
+
+                                Low Risk
+                                (7–10 km)
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="proximityMap"
+                        class="geo-map"
+                    ></div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             LOGIN
+        ========================== -->
+
+        <section
+            class="page auth-page"
+            id="page-login"
+        >
+
+            <div class="auth-card">
+
+                <div class="auth-mark">
+                    GS
+                </div>
+
+                <div class="eyebrow">
+                    GeoSwine
+                </div>
+
+                <h1>
+                    Welcome Back
+                </h1>
+
+                <p>
+                    Sign in to access the monitoring system.
+                </p>
+
+
+                <form id="loginForm">
+
+                    <label for="loginUsername">
+                        Username
+                    </label>
+
+                    <input
+                        id="loginUsername"
+                        class="form-control"
+                        type="text"
+                        placeholder="Enter username"
+                        required
+                    >
+
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <input
+                        id="loginPassword"
+                        class="form-control"
+                        type="password"
+                        placeholder="Enter password"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="primary-button full-width"
+                    >
+                        Sign In
+                    </button>
+
+
+                    <div
+                        class="form-message"
+                        id="loginMessage"
+                    ></div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             SIGN UP
+        ========================== -->
+
+        <section
+            class="page auth-page"
+            id="page-signup"
+        >
+
+            <div class="auth-card">
+
+                <div class="auth-mark">
+                    GS
+                </div>
+
+                <div class="eyebrow">
+                    GeoSwine
+                </div>
+
+                <h1>
+                    Create Farmer Account
+                </h1>
+
+                <p>
+                    Register a new farmer account.
+                </p>
+
+
+                <form id="signupForm">
+
+                    <label for="signupLastName">
+                        Last Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signupLastName"
+                        class="form-control"
+                        placeholder="Enter your last name"
+                        required
+                    >
+
+
+                    <label for="signupFirstName">
+                        First Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signupFirstName"
+                        class="form-control"
+                        placeholder="Enter your first name"
+                        required
+                    >
+
+
+                    <label for="signupMiddleInitial">
+                        Middle Initial
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signupMiddleInitial"
+                        class="form-control"
+                        placeholder="M.I."
+                        maxlength="10"
+                    >
+
+
+                    <label for="signupEmail">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="signupEmail"
+                        class="form-control"
+                        placeholder="Enter your email address"
+                        required
+                    >
+
+
+                    <label for="signupPhone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="signupPhone"
+                        class="form-control"
+                        placeholder="09XXXXXXXXX"
+                        required
+                    >
+
+
+                    <label for="signupPassword">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        class="form-control"
+                        placeholder="At least 8 characters"
+                        minlength="8"
+                        required
+                    >
+
+
+                    <label for="signupConfirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="signupConfirmPassword"
+                        class="form-control"
+                        placeholder="Re-enter your password"
+                        minlength="8"
+                        required
+                    >
+
+
+                    <label for="signupFarmName">
+                        Farm Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signupFarmName"
+                        class="form-control"
+                        placeholder="Enter your farm name"
+                        required
+                    >
+
+
+                    <label for="signupFarmAddress">
+                        Farm Address
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signupFarmAddress"
+                        class="form-control"
+                        placeholder="Enter your farm address"
+                        required
+                    >
+
+
+                    <label for="signupLatitude">
+                        Latitude
+                    </label>
+
+                    <input
+                        type="number"
+                        id="signupLatitude"
+                        class="form-control"
+                        placeholder="e.g. 15.4847000"
+                        step="any"
+                        required
+                    >
+
+
+                    <label for="signupLongitude">
+                        Longitude
+                    </label>
+
+                    <input
+                        type="number"
+                        id="signupLongitude"
+                        class="form-control"
+                        placeholder="e.g. 120.5979000"
+                        step="any"
+                        required
+                    >
+
+
+                    <button
+                        type="button"
+                        id="useCurrentLocationButton"
+                        class="secondary-button full-width"
+                    >
+                        My Current Location
+                    </button>
+
+
+                    <div
+                        id="locationMessage"
+                        class="form-message"
+                        style="margin-top: 8px;"
+                    ></div>
+
+
+                    <div
+                        style="
+                            margin-top: 16px;
+                            padding: 14px;
+                            border: 1px solid #ddd;
+                            border-radius: 8px;
+                            background: #fafafa;
+                        "
+                    >
+
+                        <strong>
+                            Terms & Conditions
+                        </strong>
+
+                        <p>
+                            By creating an account, you agree to use GeoSwine
+                            responsibly and provide accurate information.
+                        </p>
+
+                    </div>
+
+
+                    <label
+                        style="
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            margin-top: 12px;
+                        "
+                    >
+
+                        <input
+                            type="checkbox"
+                            id="signupTerms"
+                            required
+                        >
+
+                        I agree to the Terms and Conditions.
+
+                    </label>
+
+
+                    <button
+                        type="submit"
+                        id="signupSubmitButton"
+                        class="primary-button full-width"
+                    >
+                        Create Account
+                    </button>
+
+
+                    <div
+                        id="signupMessage"
+                        class="form-message"
+                    ></div>
+
+                </form>
+
+
+
+                <!-- EMAIL VERIFICATION -->
+
+                <div
+                    id="verificationPanel"
+                    style="display:none;"
+                >
+
+                    <p
+                        id="verificationDescription"
+                        style="margin-bottom:18px;"
+                    >
+                        Enter the 6-digit verification code
+                        sent to your email address.
+                    </p>
+
+
+                    <label for="verificationCode">
+                        Verification Code
+                    </label>
+
+                    <input
+                        id="verificationCode"
+                        class="form-control"
+                        type="text"
+                        maxlength="6"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        placeholder="Enter 6-digit code"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="primary-button full-width"
+                        id="verifyEmailButton"
+                    >
+                        Verify Email
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="secondary-button full-width"
+                        id="resendCodeButton"
+                        style="margin-top:10px;"
+                    >
+                        Resend Code
+                    </button>
+
+
+                    <div
+                        class="form-message"
+                        id="verificationMessage"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>
